@@ -42,7 +42,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header tittle="homeScreen" />
+      <Header tittle="BrewHaus" />
       <View style={styles.subTittleViewe}>
         <Text style={styles.tittleSub}>Find the Best {'\n'}coffee for you</Text>
       </View>
@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 15,
     paddingHorizontal: 14,
-    paddingVertical: 4,
+    paddingVertical: 17,
+    marginBottom:8,
   },
   searchTxt: {
     flex: 1,

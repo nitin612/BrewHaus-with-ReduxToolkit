@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   tittle: {
     fontFamily: 'TitilliumWeb-Bold',
     fontSize: 22,
+    color:COLORS.primaryWhiteHex,
   },
 });
 
