@@ -32,7 +32,11 @@ const HomeScreen = () => {
     dispatch(fetchCoffee());
   }, [dispatch]);
 
-  const filteredCoffee = coffeeList.filter(coffee => {
+  // const filteredCoffee = coffeeList.filter(coffee => {
+  //   return coffee.name.toLowerCase().includes(searchText.toLowerCase());
+  // });
+
+  const filteredCoffee = (coffeeList || []).filter(coffee => {
     return coffee.name.toLowerCase().includes(searchText.toLowerCase());
   });
 
@@ -90,8 +94,10 @@ const HomeScreen = () => {
           data={beansList}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("DetailsScreen" , { item })}>
-              <BeansCard beans={item}/>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('DetailsScreen', { item })}
+            >
+              <BeansCard beans={item} />
             </TouchableOpacity>
           )}
           showsHorizontalScrollIndicator={false}
