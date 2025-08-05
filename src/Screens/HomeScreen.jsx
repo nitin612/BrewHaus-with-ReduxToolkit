@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     gap: 15,
     paddingHorizontal: 14,
     paddingVertical: 17,
-    marginBottom:8,
+    marginBottom: 8,
   },
   searchTxt: {
     flex: 1,

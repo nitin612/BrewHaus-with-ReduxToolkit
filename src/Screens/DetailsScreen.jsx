@@ -20,103 +20,109 @@ const DetailsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   return (
-    <ScrollView style={styles.container}>
-      <ImageBackground
-        source={{ uri: item.imageUrl }}
-        style={styles.img}
-        resizeMode="cover"
+    <View style={styles.container}>
+      <ScrollView 
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}
       >
-        <View style={styles.icons}>
-          <TouchableOpacity
-            style={styles.upperBtnStyle}
-            onPress={() => navigation.goBack()}
-          >
-            <CustomIcons
-              name="left"
-              size={moderateScale(18)}
-              color={COLORS.primaryLightGreyHex}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.upperBtnStyle}>
-            <CustomIcons
-              name="like"
-              size={moderateScale(20)}
-              color={COLORS.primaryRedHex}
-            />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: moderateScale(0),
-            height: moderateScale(100),
-            width: '100%',
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            borderTopRightRadius: 15,
-            borderTopLeftRadius: 15,
-          }}
+        <ImageBackground
+          source={{ uri: item.imageUrl }}
+          style={styles.img}
+          resizeMode="cover"
         >
-          <Text style={styles.coffeeName}>{item.name}</Text>
-          <Text style={styles.coffeeSpecial}>{item.special_ingredient}</Text>
+          <View style={styles.icons}>
+            <TouchableOpacity
+              style={styles.upperBtnStyle}
+              onPress={() => navigation.goBack()}
+            >
+              <CustomIcons
+                name="left"
+                size={moderateScale(18)}
+                color={COLORS.primaryLightGreyHex}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.upperBtnStyle}>
+              <CustomIcons
+                name="like"
+                size={moderateScale(20)}
+                color={COLORS.primaryRedHex}
+              />
+            </TouchableOpacity>
+          </View>
           <View
             style={{
-              flexDirection: 'row',
-              gap: 10,
-              alignItems: 'center',
-              marginHorizontal: 20,
-              marginTop: 8,
+              position: 'absolute',
+              bottom: moderateScale(0),
+              height: moderateScale(100),
+              width: '100%',
+              backgroundColor: 'rgba(0,0,0,0.4)',
+              borderTopRightRadius: 15,
+              borderTopLeftRadius: 15,
             }}
           >
+            <Text style={styles.coffeeName}>{item.name}</Text>
+            <Text style={styles.coffeeSpecial}>{item.special_ingredient}</Text>
             <View
               style={{
                 flexDirection: 'row',
+                gap: 10,
                 alignItems: 'center',
-                justifyContent: 'center',
-                gap: 3,
+                marginHorizontal: 20,
+                marginTop: 8,
               }}
             >
-              <CustomIcons
-                name="star"
-                size={15}
-                color={COLORS.primaryOrangeHex}
-              />
-              <Text style={styles.coffeeRating}>
-                {item.average_rating || 'No rating'}{' '}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 3,
+                }}
+              >
+                <CustomIcons
+                  name="star"
+                  size={15}
+                  color={COLORS.primaryOrangeHex}
+                />
+                <Text style={styles.coffeeRating}>
+                  {item.average_rating || 'No rating'}{' '}
+                </Text>
+              </View>
+              <Text style={styles.coffeeCount}>
+                ({item.ratings_count || '0'})
               </Text>
             </View>
-            <Text style={styles.coffeeCount}>
-              ({item.ratings_count || '0'})
-            </Text>
+          </View>
+        </ImageBackground>
+
+        <View style={styles.description}>
+          <Text style={styles.descHeading}>Description</Text>
+          <Text style={styles.desc}>{item.description}</Text>
+        </View>
+
+        <View style={styles.sizeContainer}>
+          <Text style={styles.descHeading}>Size</Text>
+          <View style={styles.sizeBox}>
+            {item.prices?.map(priceObj => (
+              <TouchableOpacity
+                key={priceObj._id}
+                style={[
+                  styles.sizeBtns,
+                  selectedSize?.size === priceObj.size && {
+                    backgroundColor: COLORS.primaryOrangeHex,
+                  },
+                ]}
+                onPress={() => setSelectedSize(priceObj)}
+              >
+                <Text style={styles.size}>{priceObj.size}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
-      </ImageBackground>
+      </ScrollView>
 
-      <View style={styles.description}>
-        <Text style={styles.descHeading}>Description</Text>
-        <Text style={styles.desc}>{item.description}</Text>
-      </View>
-
-      <View style={styles.sizeContainer}>
-        <Text style={styles.descHeading}>Size</Text>
-        <View style={styles.sizeBox}>
-          {item.prices?.map(priceObj => (
-            <TouchableOpacity
-              key={priceObj._id}
-              style={[
-                styles.sizeBtns,
-                selectedSize?.size === priceObj.size && {
-                  backgroundColor: COLORS.primaryOrangeHex,
-                },
-              ]}
-              onPress={() => setSelectedSize(priceObj)}
-            >
-              <Text style={styles.size}>{priceObj.size}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
+      {/* Bottom Bar - Now positioned at the bottom */}
       <View style={styles.bottomBar}>
         <View style={styles.priceBox}>
           <Text style={styles.priceTxt}>Price</Text>
@@ -128,7 +134,7 @@ const DetailsScreen = ({ route }) => {
           <Text style={styles.addToCartTxt}>Add to cart</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -138,6 +144,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: moderateScale(80), 
   },
   img: {
     flex: 1,
@@ -169,7 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_light,
     fontSize: 12,
   },
-
   description: {
     gap: 10,
     marginTop: 10,
@@ -186,23 +197,30 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_regular,
   },
   bottomBar: {
-    position: 'relative',
+    position: 'absolute',
+    bottom: 15,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: COLORS.primaryBlackHex,
+    paddingHorizontal: moderateScale(20),
+    paddingVertical: moderateScale(15),
+    borderTopWidth: 1,
+    borderTopColor: COLORS.primaryDarkGreyHex,
   },
   priceBox: {
     alignItems: 'center',
   },
   priceTxt: {
     color: COLORS.primaryWhiteHex,
-    marginHorizontal: 20,
     fontSize: 15,
   },
   price: {
     color: COLORS.primaryWhiteHex,
     fontFamily: FONTFAMILY.poppins_extrabold,
     fontSize: moderateScale(22),
-    marginHorizontal: moderateScale(20),
   },
   addToCart: {
     height: moderateScale(55),
